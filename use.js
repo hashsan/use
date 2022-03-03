@@ -1084,7 +1084,7 @@ fn.preload=(v)=>{return new Promise(sol=>{
   };
 
 
-export {fn} //<----------------------
+export {fn}; //<----------------------
 
 
 
