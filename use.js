@@ -1077,6 +1077,11 @@ fn.preload=(v)=>{return new Promise(sol=>{
  },10)
 })}
 
+  fn._rkana = fn.rkana;
+  fn.rkana = n => {
+    return fn._rkana(n).toLowerCase().split('').
+    map((d, i) => i % 4 ? d : d.toUpperCase()).join('');
+  };
 
 
 export {fn} //<----------------------
