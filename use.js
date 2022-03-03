@@ -60,9 +60,9 @@ function use(el){
 }
 /**/
 
-var localStorage=this.localStorage||window.localStorage
+//var localStorage=this.localStorage||window.localStorage
 ;
-var fn=this.fn||{},is=this.is||{}
+var fn={}; //this.fn||{},is=this.is||{}
 
 ;(function(fn){
   var _={}; 
