@@ -1091,9 +1091,7 @@ fn.preload=(v)=>{return new Promise(sol=>{
     map((d, i) => i % 4 ? d : d.toUpperCase()).join('');
   };
 
-
-export {fn}; //<----------------------
-
+window.fn=fn;
 
 
 
