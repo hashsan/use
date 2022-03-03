@@ -32,82 +32,6 @@ v20 fn.arraychunk
 v21 fn.maskstring
 v22 fn.preload
 */
-;(function(root){
-  if(root._) return;
-  var _={}; 
-/*original by underscore.js*/
-//line 1457
-  _.now = Date.now || function() {
-    return new Date().getTime();
-   };
-//line 850
- _.throttle = function(func, wait, options) {
-    var context, args, result;
-    var timeout = null;
-    var previous = 0;
-    if (!options) options = {};
-    var later = function() {
-      previous = options.leading === false ? 0 : _.now();
-      timeout = null;
-      result = func.apply(context, args);
-      if (!timeout) context = args = null;
-    };
-    return function() {
-      var now = _.now();
-      if (!previous && options.leading === false) previous = now;
-      var remaining = wait - (now - previous);
-      context = this;
-      args = arguments;
-      if (remaining <= 0 || remaining > wait) {
-        if (timeout) {
-          clearTimeout(timeout);
-          timeout = null;
-        }
-        previous = now;
-        result = func.apply(context, args);
-        if (!timeout) context = args = null;
-      } else if (!timeout && options.trailing !== false) {
-        timeout = setTimeout(later, remaining);
-      }
-      return result;
-    };
-  };
- //line 883
-  _.debounce = function(func, wait, immediate) {
-    var timeout, args, context, timestamp, result;
-
-    var later = function() {
-      var last = _.now() - timestamp;
-
-      if (last < wait && last >= 0) {
-        timeout = setTimeout(later, wait - last);
-      } else {
-        timeout = null;
-        if (!immediate) {
-          result = func.apply(context, args);
-          if (!timeout) context = args = null;
-        }
-      }
-    };
-
-    return function() {
-      context = this;
-      args = arguments;
-      timestamp = _.now();
-      var callNow = immediate && !timeout;
-      if (!timeout) timeout = setTimeout(later, wait);
-      if (callNow) {
-        result = func.apply(context, args);
-        context = args = null;
-      }
-
-      return result;
-    };
-  };
-
-  root._ =_;
-})(this);
-/**/
 
 function use(el){
  var v=el.src;
@@ -139,6 +63,86 @@ function use(el){
 var localStorage=this.localStorage||window.localStorage
 ;
 var fn=this.fn||{},is=this.is||{}
+
+;(function(fn){
+  var _={}; 
+/*original by underscore.js*/
+//line 1457
+  _.now = Date.now || function() {
+    return new Date().getTime();
+   };
+//line 850
+ fn.throttle = _.throttle = function(func, wait, options) {
+    var context, args, result;
+    var timeout = null;
+    var previous = 0;
+    if (!options) options = {};
+    var later = function() {
+      previous = options.leading === false ? 0 : _.now();
+      timeout = null;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    };
+    return function() {
+      var now = _.now();
+      if (!previous && options.leading === false) previous = now;
+      var remaining = wait - (now - previous);
+      context = this;
+      args = arguments;
+      if (remaining <= 0 || remaining > wait) {
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        previous = now;
+        result = func.apply(context, args);
+        if (!timeout) context = args = null;
+      } else if (!timeout && options.trailing !== false) {
+        timeout = setTimeout(later, remaining);
+      }
+      return result;
+    };
+  };
+ //line 883
+  fn.debounce = _.debounce = function(func, wait, immediate) {
+    var timeout, args, context, timestamp, result;
+
+    var later = function() {
+      var last = _.now() - timestamp;
+
+      if (last < wait && last >= 0) {
+        timeout = setTimeout(later, wait - last);
+      } else {
+        timeout = null;
+        if (!immediate) {
+          result = func.apply(context, args);
+          if (!timeout) context = args = null;
+        }
+      }
+    };
+
+    return function() {
+      context = this;
+      args = arguments;
+      timestamp = _.now();
+      var callNow = immediate && !timeout;
+      if (!timeout) timeout = setTimeout(later, wait);
+      if (callNow) {
+        result = func.apply(context, args);
+        context = args = null;
+      }
+
+      return result;
+    };
+  };
+
+  //root._ =_;
+})(fn);
+/**/
+
+
+
+
 /*fn.i3=(d)=>{
  if(typeof d !=='string') return d
  var el=document.createElement('table'); el.innerHTML=d.trim();
@@ -229,7 +233,7 @@ fn.sq=(d,opt=2)=>{
   .map(d=>f(d)).filter(d=>d).reverse().join('>')
  ;
 }
- is.imgurl=(d)=>{return /(.+:\/\/.+\.jpeg)|(.+:\/\/.+\.png)|(.+:\/\/.+\.jpg)/i.test(d)}
+ fn.imgurl=(d)=>{return /(.+:\/\/.+\.jpeg)|(.+:\/\/.+\.png)|(.+:\/\/.+\.jpg)/i.test(d)}
  
  fn.biglex=(d)=>{
   return d.split('\n＃').map((d,i)=>(i===0)?d:'＃'+d)
@@ -239,7 +243,7 @@ fn.sq=(d,opt=2)=>{
   let title='',url='',line=0,c=44;
   let a =str.split('\n').forEach((d)=>{
    if( d.charAt(0) === '＃' ) title = d;
-   else if(d.charAt(0) === '＠' && is.imgurl(d.slice(1))) url =d.slice(1);
+   else if(d.charAt(0) === '＠' && fn.imgurl(d.slice(1))) url =d.slice(1);
    line += Math.ceil((d.length+0.1)/c)
   });
   return {t:title,u:url,l:line,s:str}
@@ -1072,4 +1076,11 @@ fn.preload=(v)=>{return new Promise(sol=>{
   if(window[v])return clearInterval(cl),sol()
  },10)
 })}
+
+
+
+export {fn} //<----------------------
+
+
+
 
