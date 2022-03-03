@@ -311,12 +311,14 @@ if(invert) fn.invertColor=invert;
 
 fn.isJSON =function(d){ try{JSON.parse(d);return true}catch(e){return false} }
 
+/*
 if(localStorage){
  fn.loId ='__loId__'; //project every change
  fn.loSave=(d,i=null)=>{var id=i||fn.loId;localStorage.setItem(id, JSON.stringify(d) ); return id}
  fn.loLoad =(i)=>{var id=i||fn.loId;var d=localStorage.getItem(id); return JSON.parse(d) }
  fn.loRemove=(i)=>{var id=i||fn.loId;localStorage.removeItem(id)}
 }
+*/
 
 //createDocument
 fn.cd= function(markup, type='text/html') {
@@ -734,6 +736,7 @@ fn.fith=(p,c)=>{
   c.style.height=r.height+'px'
 }
 
+/*
 fn.defaultkey='system2019'
 fn.save=(_d,_d1)=>{
  let key=fn.defaultkey,data=_d;
@@ -751,6 +754,8 @@ fn.load=(_d)=>{
  data=is.jsonString(data)?JSON.parse(data):data
  return data 
 }
+*/
+
 fn.basic =(u,p)=>{
  let _btoa =function(str){return btoa( unescape(encodeURIComponent( str )) )}
  return `Basic ${_btoa(u +':' +p)}`
