@@ -300,11 +300,14 @@ fn.rkana=(l=8)=>{
 }
 fn.aoimport=(d)=>{return d.replace(/［＃改ページ］\n　/g,'＃').replace(/［.+］/g,'');}
 
+/*
 if(md5){ 
  var hashColor=((s)=>{ return '#'+md5(s).slice(0,6) });
  fn.hashColor=hashColor;
 }
 if(invert) fn.invertColor=invert;
+
+*/
 
 fn.isJSON =function(d){ try{JSON.parse(d);return true}catch(e){return false} }
 
