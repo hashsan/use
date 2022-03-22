@@ -31,6 +31,8 @@ v19 fn.download
 v20 fn.arraychunk
 v21 fn.maskstring
 v22 fn.preload
+
+fn.canvas
 */
 
 function use(el){
@@ -1090,6 +1092,17 @@ fn.preload=(v)=>{return new Promise(sol=>{
     return fn._rkana(n).toLowerCase().split('').
     map((d, i) => i % 4 ? d : d.toUpperCase()).join('');
   };
+
+fn.canvas=function canvas(caller,w,h){
+  w=w||100,h=h||100
+  var canvas = document.createElement('canvas')
+  canvas.width = w,canvas.height = h
+  var ctx = canvas.getContext('2d')
+  caller(ctx);
+  return canvas.toDataURL();
+}
+
+
 
 window.fn=fn;
 
