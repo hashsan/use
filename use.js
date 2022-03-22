@@ -33,6 +33,7 @@ v21 fn.maskstring
 v22 fn.preload
 
 fn.canvas
+fn.readmejs
 */
 
 function use(el){
@@ -1100,6 +1101,35 @@ fn.canvas=function canvas(caller,w,h){
   var ctx = canvas.getContext('2d')
   caller(ctx);
   return canvas.toDataURL();
+}
+
+fn.readmejs=async function readmejs(url){
+
+  var dat =await fetch(url).then(d=>d.text())
+  dat = jscapture(dat)
+  //document.body.innerHTML=`<pre>${dat}</pre>`;
+  //
+  var file = new File([dat], "script.js");
+  var objectURL = URL.createObjectURL(file);
+  var el=document.createElement('script')
+  el.src=objectURL
+  return document.body.appendChild(el)
+  //
+  //
+  function jscapture(dat){
+    var cr='\n' 
+    var wk='',flg=false
+    var ary=dat.replace(/\r?\n/g,cr).split(cr)  
+    for(var line of ary){    
+      if(flg){
+        if(/```/.test(line)) wk+=cr,flg=false
+        else wk+=line+cr
+      }
+      if(!flg && /```js/.test(line)) flg=true    
+    }  
+    return wk;  
+  }
+
 }
 
 
