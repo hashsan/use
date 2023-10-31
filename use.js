@@ -34,6 +34,7 @@ v22 fn.preload
 v23 fn.resizer
 v24 fn.tobase64 //from file or blob
 v25 fn.dropit 
+v26 fn.copy // copy to clipboard modern
 
 fn.canvas
 fn.readmejs
@@ -412,7 +413,7 @@ fn.base64type=(base64)=>{
  return dump.match(re).slice(1,2).join('')
 }
 
-fn.copy=function(textVal){
+fn.copy_old=function(textVal){
  var copyFrom = document.createElement("textarea");
  copyFrom.textContent = textVal;
  var bodyElm = document.getElementsByTagName("body")[0];
@@ -1223,7 +1224,8 @@ fn.dropit((url)=>{
 })  
   */
 }
-
+//const copyToClipboard
+fn.copy = (text) => navigator.clipboard?.writeText && navigator.clipboard.writeText(text)
 
 
 window.fn=fn;
