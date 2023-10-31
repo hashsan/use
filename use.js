@@ -32,6 +32,7 @@ v20 fn.arraychunk
 v21 fn.maskstring
 v22 fn.preload
 v23 fn.resizer
+v24 fn.tobase64 //from file or blob
 
 fn.canvas
 fn.readmejs
@@ -1193,7 +1194,13 @@ document.querySelector('input').onchange = async e => {
 }
 */
 })();  
-
+fn.tobase64 = /*const pFileReader =*/ blob =>
+  new Promise(resolve => {
+    const fr = new FileReader()
+    fr.readAsDataURL(blob)
+    fr.onload = e => resolve(e.target.result)
+})
+///
 
 window.fn=fn;
 
