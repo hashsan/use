@@ -33,6 +33,7 @@ v21 fn.maskstring
 v22 fn.preload
 v23 fn.resizer
 v24 fn.tobase64 //from file or blob
+v25 fn.dropit 
 
 fn.canvas
 fn.readmejs
@@ -1201,6 +1202,29 @@ fn.tobase64 = /*const pFileReader =*/ blob =>
     fr.onload = e => resolve(e.target.result)
 })
 ///
+fn.dropit = function dropit(cb){
+  fn.dragger(document.documentElement,async (ev)=>{
+    //console.log(ev,ev.target.result,ev.target.file)
+    var type=ev.target.file.type
+    if(!/^image/.test(type))return 
+    var file = ev.target.file;
+    //var base64=ev.target.result
+    var blob = await fn.resizer(file,300)
+    var base64 = await fn.tobase64(blob)  
+    var ret = await fn.upImgur(base64)
+    //document.body.innerText += '\n'+ret.data.link
+    cb(ret.data.link)
+  }) 
+  /*
+fn.dropit((url)=>{
+  var img = new Image();
+  img.src=url;
+  document.body.append(img)
+})  
+  */
+}
+
+
 
 window.fn=fn;
 
