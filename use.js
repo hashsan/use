@@ -35,6 +35,7 @@ v23 fn.resizer
 v24 fn.tobase64 //from file or blob
 v25 fn.dropit 
 v26 fn.copy // copy to clipboard modern
+v27 fn.giturlToEnv //
 
 fn.canvas
 fn.readmejs
@@ -1226,6 +1227,29 @@ fn.dropit((url)=>{
 }
 //const copyToClipboard
 fn.copy = (text) => navigator.clipboard?.writeText && navigator.clipboard.writeText(text)
+
+fn.giturlToEnv = function giturlToEnv(url){
+    //for github 
+    /* test code
+  var type="https://github.com/pinkromeo18/eromanga/tree/main/takayuka/and/xyz"  
+  var type1 ="https://pinkromeo18.github.io/eromanga/img"
+  var type2 ="https://github.com/pinkromeo18/eromanga/tree/main/takayuka"
+  var type3 ="https://github.com/pinkromeo18/eromanga"
+  */
+    url = url.replace("/tree/main","")
+      .split("//").at(1)
+      .replace("github.com/","")
+      .replace(".github.io","")
+    //console.log(url)
+    var ary = url.split('/')
+    var owner = ary.splice(0,1).join('')
+    var repo = ary.splice(0,1).join('')
+    var path = ary.join('/')
+    if(path && !(path.at(-1)==="/") ){
+      path +="/"
+    }
+    return {url,owner,repo,path}
+  }
 
 
 window.fn=fn;
