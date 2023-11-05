@@ -36,6 +36,7 @@ v24 fn.tobase64 //from file or blob
 v25 fn.dropit 
 v26 fn.copy // copy to clipboard modern
 v27 fn.giturlToEnv //
+v28 fn.pu //test pussher
 
 fn.canvas
 fn.readmejs
@@ -1250,6 +1251,14 @@ fn.giturlToEnv = function giturlToEnv(url){
     }
     return {url,owner,repo,path}
   }
+
+fn.pu = (d,tag) =>{
+  var el =document.createElement(tag||'div')
+  el.innerHTML= d
+  el.style.background='whitesmoke'
+  document.body.append(el)
+  return el;
+}
 
 
 window.fn=fn;
