@@ -1260,6 +1260,23 @@ fn.pu = (d,tag) =>{
   return el;
 }
 
+fn.fetch=function _fetch(url,obj,use_cache){
+  // default no-chache
+  // and need .catch()
+  obj = obj||{}
+  const okOnly = (res) =>{
+    if(!res.ok){
+      throw new Error(res.statusText)
+    }
+    return res
+  }
+  if(!use_cache){
+    //console.log('9')
+    Object.assign(obj,{cache:'no-cache'})
+  }
+  return fetch(url,obj).then(okOnly)  
+}
+
 
 window.fn=fn;
 
