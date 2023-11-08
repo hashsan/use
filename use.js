@@ -37,6 +37,10 @@ v25 fn.dropit
 v26 fn.copy // copy to clipboard modern
 v27 fn.giturlToEnv //
 v28 fn.pu //test pussher
+v29 fn.fetch
+v30 fm.aitalk
+
+
 
 fn.canvas
 fn.readmejs
@@ -1276,6 +1280,36 @@ fn.fetch=function _fetch(url,obj,use_cache){
   }
   return fetch(url,obj).then(okOnly)  
 }
+
+if(window.CP){
+  window.CP.PenTimer.MAX_TIME_IN_LOOP_WO_EXIT = 60000;
+}
+
+function sleep(time){return new Promise(sol=>{
+  setTimeout(()=>sol(),time)
+})}
+function random(min, max) {
+  if (max == null) {
+    max = min;
+    min = 0;
+  }
+  return min + Math.floor(Math.random() * (max - min + 1));
+}
+
+function aitalk(el,str){return new Promise(async sol=>{
+  const base = 16;
+  const br = base*5; 
+  const ary = str.split('')
+  const isbreak =d=>/[　\s]/.test(d);
+  for(var i=0;i<ary.length;i++){
+    const ch = ary.at(i)
+    el.innerHTML +='' + ch
+    await sleep(base + random(0,base) + (isbreak(ch)? br:0) )    
+  }
+  sol(el)  
+})}
+
+fn.aitalk=aitalk
 
 
 window.fn=fn;
