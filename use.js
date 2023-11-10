@@ -43,6 +43,8 @@ v30 fm.aitalk
 v31 fn.tailchange
 v31 fn.joinurl
 v31 fn.gitpass
+v32 fn.tailcut
+v33 fn.gitpass  //subpath check ok
 
 fn.canvas
 fn.readmejs
@@ -1375,6 +1377,20 @@ var url2="https://hashsan.github.io/use/sample/use.js"
   return {url,owner,repo,path}
 }
 
+function getsubpath(path){
+  var tail = path.split('/').pop()
+  var sub=path.replace(tail,'')
+  return sub
+}
+
+fn.tailcut =function tailcut(url){
+  //tail slash cut
+  if(!/\/$/.test(url)){
+    return url
+  }
+  return url.slice(0,-1)
+}
+
 fn.gitpass = function gitpass(url){
   /*
   not in raw.github...
@@ -1386,19 +1402,25 @@ fn.gitpass = function gitpass(url){
   $.owner = owner
   $.repo = repo
   $.path = path
+  const subpath = getsubpath(path)
+  $.subpath = subpath
+  $.issubpath = !!$.subpath
   $.isimg = isImg(path)
   $.isfile = isFile(path)
   $.isgithub = isGithub(url)
   $.api = 'https://api.github.com'
   $.raw = 'https://raw.githubusercontent.com'
   $.content_url = $.api +  `/repos/${owner}/${repo}/contents/${path}`
-  $.repo_url = $.api +  `/repos/${owner}/${repo}/contents/`
+  $.repo_url = $.api +  `/repos/${owner}/${repo}/contents/${subpath}`  //repo need subpath
+  $.repo_url=fn.tailcut($.repo_url)
+  //console.log('xxxxxx',x)
   $.summary_url = $.api +`/repos/${owner}/${repo}/commits?path=${path}&page=1&per_page=1`;
   $.download_url = $.raw + `/${owner}/${repo}/main/${path}`
   //https://raw.githubusercontent.com/hashsan/outputs/main/test.txt
   return $;
 
 }
+
 
 
 
