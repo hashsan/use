@@ -45,6 +45,7 @@ v31 fn.joinurl
 v31 fn.gitpass
 v32 fn.tailcut
 v33 fn.gitpass  //subpath check ok
+v34 fn.clearurl
 
 fn.canvas
 fn.readmejs
@@ -1421,6 +1422,10 @@ fn.gitpass = function gitpass(url){
 
 }
 
+fn.clearurl=(url)=>{  
+ const {origin,pathname} = new URL(url)
+ return origin + pathname  
+}
 
 
 
