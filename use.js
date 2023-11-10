@@ -40,7 +40,9 @@ v28 fn.pu //test pussher
 v29 fn.fetch
 v30 fm.aitalk
 
-
+v31 fn.tailchange
+v31 fn.joinurl
+v31 fn.gitpass
 
 fn.canvas
 fn.readmejs
@@ -1310,6 +1312,99 @@ function aitalk(el,str){return new Promise(async sol=>{
 })}
 
 fn.aitalk=aitalk
+
+
+fn.tailchange = function tailchange(url,file){
+  
+  var tail = url.split('/').pop()
+  var newurl = url.replace(tail,file)
+  return newurl  
+  
+}
+
+fn.joinurl=function  joinUrl(a,b){
+    const re=/\/$/
+    a = re.test(a)?a:'/'+a
+    //tail slash
+    b = re.test(b)?b.slice(0,-1):b
+    const j = a+b
+    //console.log(j)
+    return j
+}
+
+
+const isprotocolless=(d)=>{
+  return /^\/\//.test(d)
+}
+
+function isFile(d){
+  return /\.\w+$/.test(d)
+}
+
+function isImg(d){
+  const re=/.(jpg|jpeg|png|gif|bmp|svg|webp)$/i
+  return re.test(d)
+}
+
+function isText(d){
+  return /\.txt$/.test(d)
+}
+function isGithub(d){
+  return /github\.com/.test(d) || /\.github\.io/.test(d)
+}
+
+function urlEnv(url){
+  /*
+var url="https://hashsan.github.io/use/use.js"
+var url1="https://hashsan.github.io/use/"
+var url2="https://hashsan.github.io/use/sample/use.js"  
+  */
+  const _url = url.replace("/tree/main","")
+  .split("//").at(1)
+  .replace("github.com/","")
+  .replace(".github.io","")
+  //console.log(url)
+  const ary = _url.split('/')
+  const owner = ary.splice(0,1).join('')
+  const repo = ary.splice(0,1).join('')
+  const path = ary.join('/')
+  /*
+    if(path && !(path.at(-1)==="/") ){
+      path +="/"
+    }*/
+  return {url,owner,repo,path}
+}
+
+fn.gitpass = function gitpass(url){
+  /*
+  not in raw.github...
+  */
+
+  var $={}
+  $.org = url
+  const {owner,repo,path} = urlEnv(url)
+  $.owner = owner
+  $.repo = repo
+  $.path = path
+  $.isimg = isImg(path)
+  $.isfile = isFile(path)
+  $.isgithub = isGithub(url)
+  $.api = 'https://api.github.com'
+  $.raw = 'https://raw.githubusercontent.com'
+  $.content_url = $.api +  `/repos/${owner}/${repo}/contents/${path}`
+  $.repo_url = $.api +  `/repos/${owner}/${repo}/contents/`
+  $.summary_url = $.api +`/repos/${owner}/${repo}/commits?path=${path}&page=1&per_page=1`;
+  $.download_url = $.raw + `/${owner}/${repo}/main/${path}`
+  //https://raw.githubusercontent.com/hashsan/outputs/main/test.txt
+  return $;
+
+}
+
+
+
+
+
+
 
 
 window.fn=fn;
