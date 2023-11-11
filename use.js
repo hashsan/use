@@ -31,6 +31,10 @@ v19 fn.download
 v20 fn.arraychunk
 v21 fn.maskstring
 v22 fn.preload
+
+v22 fn.canvas
+v22 fn.readmejs
+
 v23 fn.resizer
 v24 fn.tobase64 //from file or blob
 v25 fn.dropit 
@@ -47,8 +51,8 @@ v32 fn.tailcut
 v33 fn.gitpass  //subpath check ok
 v34 fn.clearurl
 
-fn.canvas
-fn.readmejs
+v35 fn.makeday
+
 */
 
 function use(el){
@@ -1427,6 +1431,12 @@ fn.clearurl=(url)=>{
  return origin + pathname  
 }
 
+fn.makeday=function makeDay(){
+  const diff = 9*60*60*1000
+  const now = new Date(Date.now()+diff).toISOString()
+  .split('T').at(0).split('-').join('')
+  return now
+}
 
 
 
