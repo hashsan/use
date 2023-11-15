@@ -54,6 +54,8 @@ v34 fn.clearurl
 v35 fn.makeday
 v36 fn.counting
 
+v37 fn.URL.set 
+v38 fn.URL.get
 */
 
 function use(el){
@@ -1444,7 +1446,32 @@ fn.counting=function counting(str,check){
   return (str.match(re) || []).length   
 }
 
+fn.URL={}
+fn.URL.get = function get(url){
+  const str = new URL(url||location.href).search
+  var searchParams = new URLSearchParams(str);
+  return Object.fromEntries([...searchParams]);  
+}
+fn.URL.set = function set(url,obj){
+  //set params
+  var u = new URL(url||location.href)
+  var sp = u.searchParams
+  for(var key of Object.keys(obj)){
+    sp.set(key,obj[key])        
+  }
+  
+  return u.href;
+}
 
+/*
+var url="https://example.com/?name=Jonathan%20Smith&age=18"
+document.body.innerHTML= fn.URL.get(url)
+console.log(fn.URL.get(url))
+
+
+var ret = fn.URL.set(url,{xtz:'hohoho'})
+console.log(ret)
+*/
 
 
 
