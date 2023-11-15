@@ -52,6 +52,7 @@ v33 fn.gitpass  //subpath check ok
 v34 fn.clearurl
 
 v35 fn.makeday
+v36 fn.counting
 
 */
 
@@ -1438,6 +1439,10 @@ fn.makeday=function makeDay(){
   return now
 }
 
+fn.counting=function counting(str,check){
+  var re = new RegExp(check,'g')
+  return (str.match(re) || []).length   
+}
 
 
 
