@@ -56,6 +56,7 @@ v36 fn.counting
 
 v37 fn.URL.set 
 v38 fn.URL.get
+v39 fn.ealryload
 */
 
 function use(el){
@@ -1473,6 +1474,11 @@ var ret = fn.URL.set(url,{xtz:'hohoho'})
 console.log(ret)
 */
 
+fn.earlyload=(src)=>{return new Promise(sol=>{  
+  const img = new Image()
+  img.onload =()=>sol(src)
+  img.src=src  
+})}
 
 
 
