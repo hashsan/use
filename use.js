@@ -57,6 +57,7 @@ v36 fn.counting
 v37 fn.URL.set 
 v38 fn.URL.get
 v39 fn.ealryload
+v40 fn.getIndexInfo
 */
 
 function use(el){
@@ -1479,6 +1480,24 @@ fn.earlyload=(src)=>{return new Promise(sol=>{
   img.onload =()=>sol(src)
   img.src=src  
 })}
+
+fn.getIndexInfo =async function getIndexInfo(url,ghp){
+  url = fn.clearurl(url||location.href)
+  ghp = ghp || localStorage.ghp
+  const {Octo} = await import('//hashsan.github.io/Octo/Octo.js?v=1');
+  const {repo_url} = fn.gitpass(url)
+  const res = await fetch(repo_url).then(d=>d.json())
+  //console.log(res)
+  var ret = [];
+  for(const d of res){
+    const _url = fn.tailchange(url,d.name)
+    const api = new Octo(_url,ghp)
+    const r = await api.summary()
+    ret.push(r)
+  }  
+
+  return ret;
+}
 
 
 
