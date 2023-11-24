@@ -58,6 +58,8 @@ v37 fn.URL.set
 v38 fn.URL.get
 v39 fn.ealryload
 v40 fn.getIndexInfo
+
+v41 fn.carettail
 */
 
 function use(el){
@@ -1499,7 +1501,11 @@ fn.getIndexInfo =async function getIndexInfo(url,ghp){
   return ret;
 }
 
-
+fn.carettail=(el)=>{
+  let sel = window.getSelection();
+  sel.selectAllChildren(el);
+  sel.collapseToEnd();
+}
 
 window.fn=fn;
 
