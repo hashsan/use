@@ -60,6 +60,7 @@ v39 fn.ealryload
 v40 fn.getIndexInfo
 
 v41 fn.carettail
+v42 fn.textinfo 
 */
 
 function use(el){
@@ -1505,6 +1506,34 @@ fn.carettail=(el)=>{
   let sel = window.getSelection();
   sel.selectAllChildren(el);
   sel.collapseToEnd();
+}
+
+fn.textinfo= function textinfo(data){
+  const isimg=(line)=>{
+    const re= /\.(jpeg|jpg|png|bmp|gif|webp|avif)$/i
+    return re.test(line)
+  }
+  const islink=(line)=>{
+    const re=/^http/
+    return (re.test(line) && !isimg(line))
+  }
+  
+  var text = data||''
+  const ary = text.split('\n')
+
+  let imgs = ary.filter(isimg)
+  let links = ary.filter(islink)
+
+  let ret={
+    title:ary.at(0)||'',
+    len:text.length,
+    line:ary.length,
+    link:links.at(0)||'',
+    links,
+    img:imgs.at(0)||'',
+    imgs,
+  }
+  return ret
 }
 
 window.fn=fn;
