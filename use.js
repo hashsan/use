@@ -61,6 +61,7 @@ v40 fn.getIndexInfo
 
 v41 fn.carettail
 v42 fn.textinfo 
+v43 fn.ctrl_s
 */
 
 function use(el){
@@ -1535,6 +1536,52 @@ fn.textinfo= function textinfo(data){
   }
   return ret
 }
+
+fn.ctrl_s=async (_name)=>{
+  const name = _name||makename();
+  const base="https://hashsan.github.io/ctrl_s/"
+  const url = base + name
+  const {Octo} = await import("https://hashsan.github.io/Octo/Octo.js");
+  const api = new Octo(url,getGhp())  
+
+  var ed = fn.q('[contenteditable]')
+  if(!ed){
+    return console.log('notfound [contenteditable]')
+  }
+  console.log('fn.ctrl_s:',url)
+  ed.innerHTML = await api.load()||'＃新規'
+  document.documentElement.addEventListener('keydown',(e)=>{
+    if(e.ctrlKey && e.key==='s'){
+      e.preventDefault()
+      var color = ed.style.color
+      ed.style.color='#f26'
+      api.save(ed.innerHTML).then(d=>{
+        ed.style.color = color;
+      })
+      return
+    }    
+  })
+  ;
+  function getGhp(){
+    var d = "ghp_"
+    /**/
+    + "9ah8c3yojjO"
+    + "EsWBOP6CSiMAMj"
+    + "mcDcF1UGrhv"    
+    return d;
+  }
+  function crc32(r){for(var a,o=[],c=0;c<256;c++){a=c;for(var f=0;f<8;f++)a=1&a?3988292384^a>>>1:a>>>1;o[c]=a}for(var n=-1,t=0;t<r.length;t++)n=n>>>8^o[255&(n^r.charCodeAt(t))];return(-1^n)>>>0};
+
+  function makename(){
+    var str=location.href.split('#').at(0)
+
+    str = 'h'+crc32(str).toString(16) + '.txt'
+    return str
+  }
+
+}
+
+
 
 window.fn=fn;
 
