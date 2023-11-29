@@ -62,6 +62,7 @@ v40 fn.getIndexInfo
 v41 fn.carettail
 v42 fn.textinfo 
 v43 fn.ctrl_s
+v44 fn.doubleclick
 */
 
 function use(el){
@@ -1581,7 +1582,15 @@ fn.ctrl_s=async (_name)=>{
 
 }
 
-
+fn.doubleclick =function doubleclick(query,cb){
+  const el = fn.q(query)
+  var count = 0;
+  el.addEventListener('click',(e)=>{
+    count++;
+    if(count>1) cb(el)    
+    setTimeout(()=>count = 0,300)    
+  })
+}
 
 window.fn=fn;
 
