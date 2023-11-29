@@ -1511,6 +1511,10 @@ fn.carettail=(el)=>{
 }
 
 fn.textinfo= function textinfo(data){
+  const istitle=(line)=>{
+    const re=/^＃/
+    return re.test(line)
+  }
   const isimg=(line)=>{
     const re= /\.(jpeg|jpg|png|bmp|gif|webp|avif)$/i
     return re.test(line)
@@ -1523,11 +1527,14 @@ fn.textinfo= function textinfo(data){
   var text = data||''
   const ary = text.split('\n')
 
+  let titles = ary.filter(istitle)
   let imgs = ary.filter(isimg)
   let links = ary.filter(islink)
 
   let ret={
-    title:ary.at(0)||'',
+    crc:fn.crc32(data),
+    title:titles.at(0)||'',
+    titles,
     len:text.length,
     line:ary.length,
     link:links.at(0)||'',
@@ -1537,6 +1544,7 @@ fn.textinfo= function textinfo(data){
   }
   return ret
 }
+
 
 fn.ctrl_s=async (_name)=>{
   const name = _name||makename();
