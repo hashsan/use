@@ -1546,7 +1546,9 @@ fn.textinfo= function textinfo(data){
 }
 
 
-fn.ctrl_s=async (_name)=>{
+fn.ctrl_s=async (_name,_color)=>{
+  _color=_color||'#f26';
+		
   const name = _name||makename();
   const base="https://hashsan.github.io/ctrl_s/"
   const url = base + name
@@ -1563,7 +1565,7 @@ fn.ctrl_s=async (_name)=>{
     if(e.ctrlKey && e.key==='s'){
       e.preventDefault()
       var color = ed.style.color
-      ed.style.color='#f26'
+      ed.style.color=_color;//<----------------------
       api.save(ed.innerHTML).then(d=>{
         ed.style.color = color;
       })
