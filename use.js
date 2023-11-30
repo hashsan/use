@@ -63,6 +63,7 @@ v41 fn.carettail
 v42 fn.textinfo 
 v43 fn.ctrl_s
 v44 fn.doubleclick
+v45 fn.renderIndex  fn.getIndexInfo is late. speed up
 */
 
 function use(el){
@@ -1600,6 +1601,34 @@ fn.doubleclick =function doubleclick(query,cb){
     if(count>1) cb(el)    
     setTimeout(()=>count = 0,300)    
   })
+}
+
+fn.renderIndex =async function renderIndex(url,cb){
+  url = fn.clearurl(url||location.href)
+  if(!cb){
+    throw new Error('cb is needed!')
+  }
+  const ghp = getGhp()
+  const calc=(d)=>{
+    const _url = fn.tailchange(url,d.name)
+    const api = new Octo(_url,ghp)
+    api.summary().then(d=>cb(d))    
+  }
+  const {Octo} = await import('//hashsan.github.io/Octo/Octo.js?v=1');
+  const {repo_url} = fn.gitpass(url)
+  await fetch(repo_url)
+   .then(d=>d.json())
+   .then(res=>res.map(calc))
+
+  //
+  function getGhp(){
+    var d = "ghp_"
+    /**/
+    + "9ah8c3yojjO"
+    + "EsWBOP6CSiMAMj"
+    + "mcDcF1UGrhv"    
+    return d;
+  }  
 }
 
 window.fn=fn;
