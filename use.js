@@ -1521,7 +1521,7 @@ fn.textinfo= function textinfo(data){
     return re.test(line)
   }
   const islink=(line)=>{
-    const re=/^http/
+    const re=/\.(html|htm|txt)/i
     return (re.test(line) && !isimg(line))
   }
   
