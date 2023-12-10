@@ -1533,7 +1533,8 @@ fn.textinfo= function textinfo(data){
   let links = ary.filter(islink)
 
   let ret={
-    crc:fn.crc32(data),
+    //crc:fn.crc32(data),
+    crc:fn.crc32(Date.now()),
     title:titles.at(0)||'',
     titles,
     len:text.length,
