@@ -1534,7 +1534,7 @@ fn.textinfo= function textinfo(data){
 
   let ret={
     //crc:fn.crc32(data),
-    crc:fn.crc32(Date.now()),
+    crc:fn.crc32(Date.now().toString()),
     title:titles.at(0)||'',
     titles,
     len:text.length,
