@@ -64,6 +64,8 @@ v42 fn.textinfo
 v43 fn.ctrl_s
 v44 fn.doubleclick
 v45 fn.renderIndex  fn.getIndexInfo is late. speed up
+
+v46 fn.ed //var ed1=fn.ed('#edit').append('body')
 */
 
 function use(el){
@@ -1631,6 +1633,40 @@ fn.renderIndex =async function renderIndex(url,cb){
     return d;
   }  
 }
+
+fn.ed =function editor(id){
+  //usage
+  //var ed1=fn.ed('#edit').append('body')  
+  id=id.replace('#','')
+  const prefix='editor_'
+  const key=prefix+id
+  ;
+  var o={}
+  o.el = fn.i3(`
+  <div
+  id="${id}"
+  contenteditable="plaintext-only"
+  style="outline:none;padding:0.5rem;"
+  ></div>
+  `)
+  o.save=()=>{
+    const temp=o.el.innerHTML
+    localStorage.setItem(key,temp)
+  }
+  o.load=()=>{
+    const temp=localStorage.getItem(key)||''
+    o.el.innerHTML=temp
+  }
+  o.append=(q)=>{
+    fn.q(q).append(o.el)
+    return o;
+  }
+  //
+  o.load();
+  o.el.oninput=fn.debounce(o.save,100)
+  return o;
+}
+
 
 window.fn=fn;
 
