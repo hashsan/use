@@ -66,6 +66,7 @@ v44 fn.doubleclick
 v45 fn.renderIndex  fn.getIndexInfo is late. speed up
 
 v46 fn.ed //var ed1=fn.ed('#edit').append('body')
+v47 fn.get // get method param
 */
 
 function use(el){
@@ -1665,6 +1666,20 @@ fn.ed =function editor(id){
   o.load();
   o.el.oninput=fn.debounce(o.save,100)
   return o;
+}
+
+
+fn.get=key=>{
+  return new URL(window.location.href)
+   .searchParams
+   .get(key)  
+}
+
+var src = fn.get('q')
+if(src){
+  var img = fn.q('img')
+  img.src = src
+  img.setAttribute('alt',src)
 }
 
 
